@@ -1,6 +1,7 @@
 // App.js
 import React from 'react';
 import Clocks from './Clocks';
+
 const App = () => {
   return (
     <div>
