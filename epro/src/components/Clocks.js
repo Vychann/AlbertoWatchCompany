@@ -1,9 +1,8 @@
 // clocks.js
-import React from 'react';
+import React, { useState } from 'react';
 import './Clocks.css';
- 
 
-const clocks = [
+const initialClocks = [
   { src: 'https://cdn11.bigcommerce.com/s-qh06nmrb4v/images/stencil/190x250/products/323/2876/QXM381BRHA-NB__24594.1655312672.png?c=2', alt: 'ATLAS MIM CLOCK', price: '$400.00' },
   { src: 'https://cdn11.bigcommerce.com/s-qh06nmrb4v/images/stencil/190x250/products/283/2780/QXA759KLH-NB__56743.1655251105.png?c=2', alt: 'DAVIS WALL CLOCK', price: '$120.00' },
   { src: 'https://cdn11.bigcommerce.com/s-qh06nmrb4v/images/stencil/190x250/products/476/3801/QXA807ARH_Translucent__98866.1675374923.png?c=2', alt: 'SHIGATO CLOCK', price: '$75.00' },
@@ -37,15 +36,29 @@ const clocks = [
 ];
 
 const Clocks = () => {
+  const [sortedClocks, setSortedClocks] = useState(initialClocks);
+
+  const sortClocksByPrice = () => {
+    const sorted = [...sortedClocks].sort((a, b) => {
+      const priceA = parseFloat(a.price.replace('$', ''));
+      const priceB = parseFloat(b.price.replace('$', ''));
+      return priceA - priceB;
+    });
+    setSortedClocks(sorted);
+  };
+
   return (
-    <div className="gallery" id="gallery">
-      {clocks.map((clock, index) => (
-        <div className="clock-item" key={index}>
-          <img src={clock.src} alt={clock.alt} />
-          <h3>{clock.alt}</h3>
-          <p className="price">{clock.price}</p>
-        </div>
-      ))}
+    <div>
+      <button onClick={sortClocksByPrice}>Sort by Price (Low to High)</button>
+      <div className="gallery" id="gallery">
+        {sortedClocks.map((clock, index) => (
+          <div className="clock-item" key={index}>
+            <img src={clock.src} alt={clock.alt} />
+            <h3>{clock.alt}</h3>
+            <p className="price">{clock.price}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
